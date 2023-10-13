@@ -21,4 +21,4 @@ coverage.xml
 .pytest_cache/
 cover/
 
-notes.md
+notes.*

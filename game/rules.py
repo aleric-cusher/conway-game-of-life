@@ -13,5 +13,7 @@ class StandardRules(Rules):
             if neighbours == 2 or neighbours == 3:
                 return Cell.ALIVE
             return Cell.DEAD
-        if cell == Cell.DEAD and neighbours == 3:
-            return Cell.ALIVE
+        if cell == Cell.DEAD:
+            if neighbours == 3:
+                return Cell.ALIVE
+            return Cell.DEAD

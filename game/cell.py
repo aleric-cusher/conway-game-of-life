@@ -1,13 +1,14 @@
 from __future__ import annotations
+from abc import ABC
 from typing import List, Tuple
 from game.cell_states import CellStatus
 from game.rules import Rules, StandardRules
 
 
-class Cell:
+class Cell(ABC):
     neighbour_offsets = [(row, col) for row in [-1, 0, 1] for col in [-1, 0, 1] if not (row == 0 and col == 0)]
 
-    def __init__(self, location: Tuple[int, int], status: CellStatus = CellStatus.DEAD, rules: Rules = StandardRules()) -> None:
+    def __init__(self, location: Tuple[int, int], rules: Rules, status: CellStatus = CellStatus.DEAD) -> None:
         self._location = location
         self._status = status
         self.rules = rules
@@ -37,3 +38,8 @@ class Cell:
         if self._life_evaluation is not None:
             self._status = self._life_evaluation
             self._life_evaluation = None
+
+
+class StandardCell(Cell):
+    def __init__(self, location: Tuple[int, int], status: CellStatus = CellStatus.DEAD, rules: Rules = StandardRules()) -> None:
+        super().__init__(location, rules, status)

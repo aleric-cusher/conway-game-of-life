@@ -8,7 +8,7 @@ class Rules(ABC):
 
 class StandardRules(Rules):
     @staticmethod
-    def apply_rules(cell_status, neighbours):
+    def apply_rules(cell_status, neighbours) -> None:
         if cell_status == CellStatus.ALIVE:
             if neighbours == 2 or neighbours == 3:
                 return CellStatus.ALIVE

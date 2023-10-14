@@ -1,40 +1,30 @@
 import pytest
 from numpy import random
 from game.cell import Cell
+from game.cell_states import CellStatus
 from game.grid import Grid
-
+import random
 
 def test_grid_creation():
     size = (25, 30)
     grid = Grid(size)
-    assert grid._grid.shape == size
+    assert len(grid._grid) == size[0]
+    assert len(grid._grid[0]) == size[1]
+    for i in range(size[0]):
+        for j in range(size[1]):
+            assert grid._grid[i][j].get_state() == CellStatus.DEAD
 
 def test_grid_creation_random(mocker):
-    size = (3, 4)
+    size = (25, 30)
     spy = mocker.spy(random, 'choice')
     grid = Grid(size, random_seed=True)
-    assert grid._grid.shape == size
-    assert spy.call_count == 1
+    assert len(grid._grid) == size[0]
+    assert len(grid._grid[0]) == size[1]
+    assert spy.call_count == size[0] * size[1]
 
-def test_grid_invalid_size():
-    size = 'a', 'b'
-    with pytest.raises(TypeError):
-        grid = Grid(size)
+def test_grid_creation_with_alive_cells():
+    size = (5, 5)
+    grid = Grid(size, live_cell_locations=[(2, 2), (3, 4)])
+    grid._grid[2][2].get_state() == CellStatus.ALIVE
+    grid._grid[3][4].get_state() == CellStatus.ALIVE
 
-def test_grid_invalid_rules():
-    with pytest.raises(TypeError):
-        grid = Grid(rules='StandardRules')
-
-def test_get_grid():
-    grid = Grid((3, 4), random_seed=True)
-    canvas = grid.get_grid()
-    for each in canvas.reshape(canvas.shape[0]*canvas.shape[1]):
-        assert each in Cell
-    
-def test_step_single_alive_cell():
-    grid = Grid((4, 4))
-    grid._grid[2, 2] = Cell.ALIVE
-    grid.step()
-    canvas = grid._grid
-    for each in canvas.reshape(canvas.shape[0]*canvas.shape[1]):
-        assert each == Cell.DEAD

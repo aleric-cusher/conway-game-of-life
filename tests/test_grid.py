@@ -1,9 +1,7 @@
 import pytest
-from numpy import random
-from game.cell import Cell
+import random
 from game.cell_states import CellStatus
 from game.grid import Grid
-import random
 
 def test_grid_creation():
     size = (25, 30)

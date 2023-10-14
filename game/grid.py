@@ -20,7 +20,7 @@ class Grid:
     
     def add_cells(self, cell_locations: List[Tuple[int, int]], cell_status: CellStatus = CellStatus.ALIVE) -> None:
         for i, j in cell_locations:
-            self._grid[i][j] = Cell((i, j), status=cell_status)
+            self._grid[i][j].set_state(cell_status)
     
     def get_grid(self, primitive_array: bool = False) -> Union[List[List[Cell]], List[List[int]]]:
         if not primitive_array:

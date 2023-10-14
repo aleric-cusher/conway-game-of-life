@@ -8,7 +8,7 @@ def test_cell_creation():
     cell = Cell(location)
     assert cell._location == location
     assert cell._status == CellStatus.DEAD
-    assert cell.rules == StandardRules
+    assert isinstance(cell.rules, StandardRules)
 
 def test_get_status():
     location = (3, 3)

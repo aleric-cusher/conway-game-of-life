@@ -32,7 +32,7 @@ def test_get_grid():
     gotten_grid = grid.get_grid()
     assert gotten_grid == grid._grid
 
-def test_get_grid():
+def test_get_grid_primitive():
     size = (2, 2)
     grid = Grid(size, live_cell_locations=[(1, 1)])
     expected_grid = [[0, 0], [0, 1]]

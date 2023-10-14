@@ -1,14 +1,13 @@
 from __future__ import annotations
-from typing import List, Tuple, TYPE_CHECKING
+from typing import List, Tuple
 from game.cell_states import CellStatus
 from game.rules import Rules, StandardRules
-if TYPE_CHECKING:
-    from game.grid import Grid
 
 
 class Cell:
     neighbour_offsets = [(row, col) for row in [-1, 0, 1] for col in [-1, 0, 1] if not (row == 0 and col == 0)]
-    def __init__(self, location: Tuple[int, int], status: CellStatus = CellStatus.DEAD, rules: Rules = StandardRules):
+
+    def __init__(self, location: Tuple[int, int], status: CellStatus = CellStatus.DEAD, rules: Rules = StandardRules()) -> None:
         self._location = location
         self._status = status
         self.rules = rules

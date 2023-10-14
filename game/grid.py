@@ -27,13 +27,10 @@ class Grid:
             return copy(self._grid)
         return [[cell.get_state().value for cell in row] for row in self._grid]
         
-    def step(self) -> List[List[CellStatus]]:
+    def step(self) -> None:
         grid = self.get_grid()
         for i, j in self.all_indices:
             self._grid[i][j].evaluate_life(grid)
 
         for i, j in self.all_indices:
                 self._grid[i][j].update_status()
-
-        return self.get_grid()
-        

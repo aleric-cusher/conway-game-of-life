@@ -3,12 +3,12 @@ from game.cell_states import CellStatus
 
 class Rules(ABC):
     @abstractstaticmethod
-    def apply_rules(cell_status: CellStatus, neighbours: int):
+    def apply_rules(cell_status: CellStatus, neighbours: int) -> CellStatus:
         pass
 
 class StandardRules(Rules):
     @staticmethod
-    def apply_rules(cell_status, neighbours) -> None:
+    def apply_rules(cell_status, neighbours) -> CellStatus:
         if cell_status == CellStatus.ALIVE:
             if neighbours == 2 or neighbours == 3:
                 return CellStatus.ALIVE

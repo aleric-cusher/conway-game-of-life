@@ -19,12 +19,15 @@ class Cell:
         for i, j in self.neighbour_offsets:
             neighbour_row = self._location[0] + i
             neighbour_col = self._location[1] + j
-            if 0 <= neighbour_row <= len(grid) and 0 <= neighbour_col <= len(grid[0]):
-                neighbours.append(grid[i][j])
+            if 0 <= neighbour_row < len(grid) and 0 <= neighbour_col < len(grid[0]):
+                neighbours.append(grid[neighbour_row][neighbour_col])
         return neighbours
 
     def get_state(self) -> CellStatus:
         return self._status
+
+    def set_state(self, state: CellStatus) -> None:
+        self._status = state
     
     def evaluate_life(self, grid: List[List[Cell]]) -> None:
         neighbours = self._get_neighbours(grid)

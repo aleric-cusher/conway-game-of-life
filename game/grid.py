@@ -7,18 +7,20 @@ from game.cell_states import CellStatus
 
 class Grid:
     def __init__(self, size: Tuple[int, int] = (30, 30), random_seed: bool = False, live_cell_locations: List[Tuple[int, int]] = None) -> None:
-        self._grid: List[List[Cell]] = []
-        for i in range(size[0]):
-            row = []
-            for j in range(size[1]):
-                if live_cell_locations is not None and (i, j) in live_cell_locations:
-                    cell = Cell((i,j), status=CellStatus.ALIVE)
-                else:
-                    cell = Cell((i, j), status=random.choice(list(CellStatus)) if random_seed else CellStatus.DEAD)
-                row.append(cell)
-            self._grid.append(row)
-
         self.size = size
+        self._grid: List[List[Cell]] = [[Cell((i, j)) for j in range(size[1])] for i in range(size[0])]
+        self.all_indices = [(i, j) for j in range(size[1]) for i in range(size[0])]
+
+        if random_seed:
+            locations = [(i, j) for i, j in self.all_indices if random.choice([0, 1]) == 1]
+            self.add_cells(locations)
+
+        if live_cell_locations is not None:
+            self.add_cells(live_cell_locations)
+    
+    def add_cells(self, cell_locations: List[Tuple[int, int]], cell_status: CellStatus = CellStatus.ALIVE) -> None:
+        for i, j in cell_locations:
+            self._grid[i][j] = Cell((i, j), status=cell_status)
     
     def get_grid(self, primitive_array: bool = False) -> Union[List[List[Cell]], List[List[int]]]:
         if not primitive_array:
@@ -27,11 +29,10 @@ class Grid:
         
     def step(self) -> List[List[CellStatus]]:
         grid = self.get_grid()
-        for i in range(self.size[0]):
-            for j in range(self.size[1]):
-                self._grid[i][j].evaluate_life(grid)
-        for i in range(self.size[0]):
-            for j in range(self.size[1]):
+        for i, j in self.all_indices:
+            self._grid[i][j].evaluate_life(grid)
+
+        for i, j in self.all_indices:
                 self._grid[i][j].update_status()
 
         return self.get_grid()

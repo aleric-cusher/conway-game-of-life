@@ -24,7 +24,7 @@ def test_evaluate_life():
     grid = Grid((3, 3))
     grid._grid[0][1] = cell
     assert cell._life_evaluation == None
-    cell.evaluate_life(grid._grid)
+    cell.evaluate_life(grid.get_grid())
     assert cell._life_evaluation == CellStatus.DEAD
 
 def test_update_status():

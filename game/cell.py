@@ -20,8 +20,7 @@ class Cell:
             neighbour_row = self._location[0] + i
             neighbour_col = self._location[1] + j
             if 0 <= neighbour_row <= len(grid) and 0 <= neighbour_col <= len(grid[0]):
-                continue
-            neighbours.append(grid[i][j])
+                neighbours.append(grid[i][j])
         return neighbours
 
     def get_state(self) -> CellStatus:

@@ -1,14 +1,14 @@
 from copy import copy
 from typing import List, Tuple, Union
 import random
-from game.cell import Cell
+from game.cell import Cell, StandardCell
 from game.cell_states import CellStatus
 
 
 class Grid:
-    def __init__(self, size: Tuple[int, int] = (30, 30), random_seed: bool = False, live_cell_locations: List[Tuple[int, int]] = None) -> None:
+    def __init__(self, size: Tuple[int, int] = (30, 30), random_seed: bool = False, live_cell_locations: List[Tuple[int, int]] = None, cell_class: Cell = StandardCell) -> None:
         self.size = size
-        self._grid: List[List[Cell]] = [[Cell((i, j)) for j in range(size[1])] for i in range(size[0])]
+        self._grid: List[List[Cell]] = [[cell_class((i, j)) for j in range(size[1])] for i in range(size[0])]
         self.all_indices = [(i, j) for j in range(size[1]) for i in range(size[0])]
 
         if random_seed:

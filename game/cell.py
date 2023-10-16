@@ -12,7 +12,6 @@ class Cell(ABC):
         self._location = location
         self._state = state
         self.rules = rules
-        self._life_evaluation = None
     
     def _get_neighbours(self, grid: List[List[Cell]]) -> List[Cell]:
         neighbours = []
@@ -32,12 +31,7 @@ class Cell(ABC):
     def evaluate_life(self, grid: List[List[Cell]]) -> None:
         neighbours = self._get_neighbours(grid)
         alive_neighbours = sum([1 for neighbour in neighbours if neighbour.get_state() == CellState.ALIVE])
-        self._life_evaluation = self.rules.apply_rules(self._state, alive_neighbours)
-    
-    def update_state(self) -> None:
-        if self._life_evaluation is not None:
-            self._state = self._life_evaluation
-            self._life_evaluation = None
+        self._state = self.rules.apply_rules(self._state, alive_neighbours)
 
 
 class StandardCell(Cell):

@@ -23,14 +23,5 @@ def test_evaluate_life():
     cell = StandardCell(location)
     grid = Grid((3, 3))
     grid._grid[0][1] = cell
-    assert cell._life_evaluation == None
-    cell.evaluate_life(grid.get_grid())
-    assert cell._life_evaluation == CellState.DEAD
-
-def test_update_state():
-    location = (0, 1)
-    cell = StandardCell(location)
+    cell.evaluate_life(grid.get_grid_snapshot())
     assert cell._state == CellState.DEAD
-    cell._life_evaluation = CellState.ALIVE
-    cell.update_state()
-    assert cell._state == CellState.ALIVE

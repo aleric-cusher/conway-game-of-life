@@ -4,7 +4,7 @@ from game.cell_states import CellStatus
 
 
 class TestStandardRules:
-    rules = StandardRules
+    rules = StandardRules()
 
     def test_overpopulation(self):
         assert self.rules.apply_rules(CellStatus.ALIVE, 4) == CellStatus.DEAD

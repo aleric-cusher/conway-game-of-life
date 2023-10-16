@@ -1,5 +1,5 @@
 from enum import Enum
 
-class CellStatus(Enum):
+class CellState(Enum):
     DEAD = 0
     ALIVE = 1

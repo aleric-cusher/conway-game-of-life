@@ -1,6 +1,6 @@
 from abc import ABC
 from typing import List, Tuple
-from game.cell_states import CellStatus
+from game.cell_state import CellState
 
 class Rules(ABC):
     def __init__(self, rule_string: str) -> None:
@@ -19,12 +19,12 @@ class Rules(ABC):
         survival = list(map(int, list(survival)))
         return birth, survival
 
-    def apply_rules(self, cell_status: CellStatus, num_neighbours: int) -> CellStatus:
-        if cell_status == CellStatus.DEAD and num_neighbours in self.birth:
-            return CellStatus.ALIVE
-        if cell_status == CellStatus.ALIVE and num_neighbours in self.survival:
-            return CellStatus.ALIVE
-        return CellStatus.DEAD
+    def apply_rules(self, cell_status: CellState, num_neighbours: int) -> CellState:
+        if cell_status == CellState.DEAD and num_neighbours in self.birth:
+            return CellState.ALIVE
+        if cell_status == CellState.ALIVE and num_neighbours in self.survival:
+            return CellState.ALIVE
+        return CellState.DEAD
 
 
 class StandardRules(Rules):

@@ -1,14 +1,14 @@
 from __future__ import annotations
 from abc import ABC
 from typing import List, Tuple
-from game.cell_states import CellStatus
+from game.cell_state import CellState
 from game.rules import Rules, StandardRules
 
 
 class Cell(ABC):
     neighbour_offsets = [(row, col) for row in [-1, 0, 1] for col in [-1, 0, 1] if not (row == 0 and col == 0)]
 
-    def __init__(self, location: Tuple[int, int], rules: Rules, state: CellStatus = CellStatus.DEAD) -> None:
+    def __init__(self, location: Tuple[int, int], rules: Rules, state: CellState = CellState.DEAD) -> None:
         self._location = location
         self._state = state
         self.rules = rules
@@ -23,15 +23,15 @@ class Cell(ABC):
                 neighbours.append(grid[neighbour_row][neighbour_col])
         return neighbours
 
-    def get_state(self) -> CellStatus:
+    def get_state(self) -> CellState:
         return self._state
 
-    def set_state(self, state: CellStatus) -> None:
+    def set_state(self, state: CellState) -> None:
         self._state = state
     
     def evaluate_life(self, grid: List[List[Cell]]) -> None:
         neighbours = self._get_neighbours(grid)
-        alive_neighbours = sum([1 for neighbour in neighbours if neighbour.get_state() == CellStatus.ALIVE])
+        alive_neighbours = sum([1 for neighbour in neighbours if neighbour.get_state() == CellState.ALIVE])
         self._life_evaluation = self.rules.apply_rules(self._state, alive_neighbours)
     
     def update_state(self) -> None:

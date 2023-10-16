@@ -2,7 +2,7 @@ from copy import copy
 from typing import List, Tuple, Type, Union
 import random
 from game.cell import Cell, StandardCell
-from game.cell_states import CellStatus
+from game.cell_state import CellState
 
 
 class Grid:
@@ -18,7 +18,7 @@ class Grid:
         if live_cell_locations is not None:
             self.add_cells(live_cell_locations)
     
-    def add_cells(self, cell_locations: List[Tuple[int, int]], cell_status: CellStatus = CellStatus.ALIVE) -> None:
+    def add_cells(self, cell_locations: List[Tuple[int, int]], cell_status: CellState = CellState.ALIVE) -> None:
         for i, j in cell_locations:
             self._grid[i][j].set_state(cell_status)
     

@@ -29,21 +29,23 @@ def test_grid_creation_with_alive_cells():
 def test_get_grid():
     size = (5, 5)
     grid = Grid(size, live_cell_locations=[(2, 2), (3, 4)])
-    gotten_grid = grid.get_grid()
-    assert gotten_grid == grid._grid
+    gotten_grid = grid.get_grid_snapshot()
+    for i in range(5):
+        for j in range(5):
+            assert gotten_grid[i][j].get_state() == grid._grid[i][j].get_state()
 
 def test_get_grid_primitive():
     size = (2, 2)
     grid = Grid(size, live_cell_locations=[(1, 1)])
     expected_grid = [[0, 0], [0, 1]]
-    gotten_grid = grid.get_grid(primitive_array=True)
+    gotten_grid = grid.get_grid_snapshot(primitive_array=True)
     assert gotten_grid == expected_grid
 
 def test_step():
     size = (5, 5)
     grid = Grid(size, live_cell_locations=[(1, 1)])
     grid.step()
-    grid_array = grid.get_grid()
+    grid_array = grid.get_grid_snapshot()
     for i in range(size[0]):
         for j in range(size[1]):
             assert grid_array[i][j].get_state() == CellState.DEAD

@@ -1,4 +1,4 @@
-from copy import copy
+from copy import deepcopy
 from typing import List, Tuple, Type, Union
 import random
 from game.cell import Cell, StandardCell
@@ -22,15 +22,12 @@ class Grid:
         for i, j in cell_locations:
             self._grid[i][j].set_state(cell_status)
     
-    def get_grid(self, primitive_array: bool = False) -> List[List[Cell]] | List[List[int]]:
+    def get_grid_snapshot(self, primitive_array: bool = False) -> List[List[Cell]] | List[List[int]]:
         if not primitive_array:
-            return copy(self._grid)
+            return deepcopy(self._grid)
         return [[cell.get_state().value for cell in row] for row in self._grid]
         
     def step(self) -> None:
-        grid = self.get_grid()
+        grid = self.get_grid_snapshot()
         for i, j in self.all_indices:
             self._grid[i][j].evaluate_life(grid)
-
-        for i, j in self.all_indices:
-                self._grid[i][j].update_state()

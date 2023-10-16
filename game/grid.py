@@ -13,12 +13,12 @@ class Grid:
 
         if random_seed:
             locations = [(i, j) for i, j in self.all_indices if random.choice([0, 1]) == 1]
-            self.add_cells(locations)
+            self._add_cells(locations)
 
         if live_cell_locations is not None:
-            self.add_cells(live_cell_locations)
+            self._add_cells(live_cell_locations)
     
-    def add_cells(self, cell_locations: List[Tuple[int, int]], cell_status: CellState = CellState.ALIVE) -> None:
+    def _add_cells(self, cell_locations: List[Tuple[int, int]], cell_status: CellState = CellState.ALIVE) -> None:
         for i, j in cell_locations:
             self._grid[i][j].set_state(cell_status)
     

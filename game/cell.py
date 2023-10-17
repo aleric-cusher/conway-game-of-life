@@ -2,13 +2,14 @@ from __future__ import annotations
 from abc import ABC
 from typing import List, Tuple
 from game.cell_state import CellState
+from game.location import Location
 from game.rules import Rules, StandardRules
 
 
 class Cell(ABC):
     neighbour_offsets = [(row, col) for row in [-1, 0, 1] for col in [-1, 0, 1] if not (row == 0 and col == 0)]
 
-    def __init__(self, location: Tuple[int, int], rules: Rules, state: CellState = CellState.DEAD) -> None:
+    def __init__(self, location: Location, rules: Rules, state: CellState = CellState.DEAD) -> None:
         self._location = location
         self._state = state
         self.rules = rules
@@ -16,10 +17,9 @@ class Cell(ABC):
     def _get_neighbours(self, grid: List[List[Cell]]) -> List[Cell]:
         neighbours = []
         for i, j in self.neighbour_offsets:
-            neighbour_row = self._location[0] + i
-            neighbour_col = self._location[1] + j
-            if 0 <= neighbour_row < len(grid) and 0 <= neighbour_col < len(grid[0]):
-                neighbours.append(grid[neighbour_row][neighbour_col])
+            neighbour = self._location + (i, j)
+            if neighbour.is_valid(grid):
+                neighbours.append(grid[neighbour.row][neighbour.col])
         return neighbours
 
     def set_state(self, state: CellState) -> None:

@@ -14,16 +14,19 @@ class TestStillLife:
         new_snapshot = grid.get_grid_snapshot()
         for i in range(10):
             for j in range(10):
-                assert grid_snapshot[i][j].get_state() == new_snapshot[i][j].get_state()
+                assert grid_snapshot[i][j]._state == new_snapshot[i][j]._state
 
     def test_beehive(self):
         grid = Grid((10, 10))
         alive_cells = self.patterns.beehive((2, 2))
         grid._add_cells(alive_cells)
-        grid_snapshot = grid.get_grid_snapshot(True)
+        grid_snapshot = grid.get_grid_snapshot()
         pprint(grid_snapshot)
         grid.step()
-        assert grid.get_grid_snapshot(True) == grid_snapshot
+        new_snapshot = grid.get_grid_snapshot()
+        for i in range(10):
+            for j in range(10):
+                assert grid_snapshot[i][j]._state == new_snapshot[i][j]._state
 
 class TestOscillator:
     patterns = OscillatorPatterns
@@ -31,14 +34,20 @@ class TestOscillator:
         grid = Grid((5, 5))
         alive_cells = self.patterns.blinker()
         grid._add_cells(alive_cells)
-        assert grid.get_grid_snapshot(True) == [[0, 1, 0, 0, 0],
-                                                [0, 1, 0, 0, 0],
-                                                [0, 1, 0, 0, 0],
-                                                [0, 0, 0, 0, 0],
-                                                [0, 0, 0, 0, 0]]
+        snapshot = grid.get_grid_snapshot()
+        snapshot = [[cell._state.value for cell in row] for row in snapshot]
+
+        assert snapshot == [[0, 1, 0, 0, 0],
+                            [0, 1, 0, 0, 0],
+                            [0, 1, 0, 0, 0],
+                            [0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0]]
+        
         grid.step()
-        assert grid.get_grid_snapshot(True) == [[0, 0, 0, 0, 0],
-                                                [1, 1, 1, 0, 0],
-                                                [0, 0, 0, 0, 0],
-                                                [0, 0, 0, 0, 0],
-                                                [0, 0, 0, 0, 0]]
+        snapshot = grid.get_grid_snapshot()
+        snapshot = [[cell._state.value for cell in row] for row in snapshot]
+        assert snapshot == [[0, 0, 0, 0, 0],
+                            [1, 1, 1, 0, 0],
+                            [0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0]]

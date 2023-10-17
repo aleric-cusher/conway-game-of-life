@@ -1,5 +1,5 @@
 from copy import deepcopy
-from typing import List, Tuple, Type, Union
+from typing import List, Tuple, Type
 import random
 from game.cell import Cell, StandardCell
 from game.cell_state import CellState
@@ -22,10 +22,8 @@ class Grid:
         for i, j in cell_locations:
             self._grid[i][j].set_state(cell_status)
     
-    def get_grid_snapshot(self, primitive_array: bool = False) -> List[List[Cell]] | List[List[int]]:
-        if not primitive_array:
-            return deepcopy(self._grid)
-        return [[cell.get_state().value for cell in row] for row in self._grid]
+    def get_grid_snapshot(self) -> List[List[Cell]] | List[List[int]]:
+        return deepcopy(self._grid)
         
     def step(self) -> None:
         grid = self.get_grid_snapshot()

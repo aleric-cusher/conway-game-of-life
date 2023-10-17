@@ -11,6 +11,9 @@ class Grid:
         self._grid: List[List[Cell]] = [[cell_class((i, j)) for j in range(size[1])] for i in range(size[0])]
         self.all_indices = [(i, j) for j in range(size[1]) for i in range(size[0])]
 
+        self._initialize_grid(random_seed, live_cell_locations)
+        
+    def _initialize_grid(self, random_seed: bool, live_cell_locations: List[Tuple[int, int]]) -> None:
         if random_seed:
             locations = [(i, j) for i, j in self.all_indices if random.choice([0, 1]) == 1]
             self._add_cells(locations)

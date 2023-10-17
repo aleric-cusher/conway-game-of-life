@@ -1,4 +1,4 @@
-from game.cell import Cell, StandardCell
+from game.cell import StandardCell
 from game.cell_state import CellState
 from game.rules import StandardRules
 from game.grid import Grid
@@ -13,10 +13,10 @@ def test_cell_creation():
 def test_get_state():
     location = (3, 3)
     cell = StandardCell(location)
-    assert cell.get_state() == CellState.DEAD
+    assert cell._state == CellState.DEAD
 
     cell.set_state(CellState.ALIVE)
-    assert cell.get_state() == CellState.ALIVE
+    assert cell._state == CellState.ALIVE
     
 def test_evaluate_life():
     location = (0, 1)

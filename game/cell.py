@@ -22,15 +22,12 @@ class Cell(ABC):
                 neighbours.append(grid[neighbour_row][neighbour_col])
         return neighbours
 
-    def get_state(self) -> CellState:
-        return self._state
-
     def set_state(self, state: CellState) -> None:
         self._state = state
     
     def evaluate_life(self, grid: List[List[Cell]]) -> None:
         neighbours = self._get_neighbours(grid)
-        alive_neighbours = sum([1 for neighbour in neighbours if neighbour.get_state() == CellState.ALIVE])
+        alive_neighbours = sum([1 for neighbour in neighbours if neighbour._state == CellState.ALIVE])
         self._state = self.rules.apply_rules(self._state, alive_neighbours)
 
 
